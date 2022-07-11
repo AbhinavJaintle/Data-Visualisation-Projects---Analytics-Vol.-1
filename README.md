@@ -20,7 +20,6 @@ crypto_table.head()
 
 <div>
 
-https://user-images.githubusercontent.com/86119205/178377832-41d3fc55-d4ef-4af8-8ad1-29cb6a9bca7f.mp4
 
 
 <style scoped>
