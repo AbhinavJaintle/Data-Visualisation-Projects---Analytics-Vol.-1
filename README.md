@@ -1075,3 +1075,485 @@ https://user-images.githubusercontent.com/86119205/178460290-9e261a16-257c-4465-
 ```python
 
 ```
+
+
+
+## 4. Major Indian Banking Stocks Market Cap Comparison Analysis:
+
+```python
+import pandas as pd
+import numpy as np
+```
+
+
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+```
+
+
+```python
+stocks_table = pd.read_csv('D:\Documents\stock market cap.csv')
+```
+
+
+```python
+stocks_table.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Month</th>
+      <th>Stock</th>
+      <th>Open</th>
+      <th>Shares</th>
+      <th>Market Cap</th>
+      <th>Unnamed: 5</th>
+      <th>Unnamed: 6</th>
+      <th>Unnamed: 7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-01</td>
+      <td>Equitas Holdings Limited</td>
+      <td>68.1</td>
+      <td>4,22,894</td>
+      <td>28799081.4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-02</td>
+      <td>Equitas Holdings Limited</td>
+      <td>72.1</td>
+      <td>7,08,589</td>
+      <td>51089266.9</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-03</td>
+      <td>Equitas Holdings Limited</td>
+      <td>86</td>
+      <td>9,02,446</td>
+      <td>77610356.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-04</td>
+      <td>Equitas Holdings Limited</td>
+      <td>87.3</td>
+      <td>4,76,932</td>
+      <td>41636163.6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21-Jan</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-05</td>
+      <td>Equitas Holdings Limited</td>
+      <td>81</td>
+      <td>3,46,666</td>
+      <td>28079946.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2021-01</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+stocks_table = stocks_table[['Month', 'Stock', 'Market Cap']]
+stocks_table.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Month</th>
+      <th>Stock</th>
+      <th>Market Cap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-01</td>
+      <td>Equitas Holdings Limited</td>
+      <td>28799081.4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2021-02</td>
+      <td>Equitas Holdings Limited</td>
+      <td>51089266.9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021-03</td>
+      <td>Equitas Holdings Limited</td>
+      <td>77610356.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2021-04</td>
+      <td>Equitas Holdings Limited</td>
+      <td>41636163.6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-05</td>
+      <td>Equitas Holdings Limited</td>
+      <td>28079946.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df = stocks_table
+```
+
+
+```python
+df = df.set_index('Month')
+```
+
+
+```python
+print(df)
+```
+
+                                    Stock  Market Cap
+    Month                                            
+    2021-01      Equitas Holdings Limited  28799081.4
+    2021-02      Equitas Holdings Limited  51089266.9
+    2021-03      Equitas Holdings Limited  77610356.0
+    2021-04      Equitas Holdings Limited  41636163.6
+    2021-05      Equitas Holdings Limited  28079946.0
+    ...                               ...         ...
+    2022-01  Suryodaya Small Finance Bank   8414133.0
+    2022-02  Suryodaya Small Finance Bank   3749942.0
+    2022-03  Suryodaya Small Finance Bank   2799312.0
+    2022-04  Suryodaya Small Finance Bank  36078712.0
+    2022-05  Suryodaya Small Finance Bank  13988565.0
+    
+    [68 rows x 2 columns]
+    
+
+
+```python
+new = df.reset_index().groupby(['Month', 'Stock'])['Market Cap'].aggregate('first').unstack()
+```
+
+
+```python
+new.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Stock</th>
+      <th>AU Small Finance Bank</th>
+      <th>Equitas Holdings Limited</th>
+      <th>Suryodaya Small Finance Bank</th>
+      <th>Ujjivan Small Finance Bank</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-01</th>
+      <td>3.253061e+08</td>
+      <td>28799081.4</td>
+      <td>0.0</td>
+      <td>18714680.0</td>
+    </tr>
+    <tr>
+      <th>2021-02</th>
+      <td>1.284589e+09</td>
+      <td>51089266.9</td>
+      <td>0.0</td>
+      <td>51222058.8</td>
+    </tr>
+    <tr>
+      <th>2021-03</th>
+      <td>5.142770e+08</td>
+      <td>77610356.0</td>
+      <td>0.0</td>
+      <td>32713532.8</td>
+    </tr>
+    <tr>
+      <th>2021-04</th>
+      <td>2.804738e+08</td>
+      <td>41636163.6</td>
+      <td>18529260.0</td>
+      <td>37162325.2</td>
+    </tr>
+    <tr>
+      <th>2021-05</th>
+      <td>2.540412e+09</td>
+      <td>28079946.0</td>
+      <td>32791806.0</td>
+      <td>18195425.6</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+print(new)
+```
+
+    Stock    AU Small Finance Bank  Equitas Holdings Limited  \
+    Month                                                      
+    2021-01           3.253061e+08                28799081.4   
+    2021-02           1.284589e+09                51089266.9   
+    2021-03           5.142770e+08                77610356.0   
+    2021-04           2.804738e+08                41636163.6   
+    2021-05           2.540412e+09                28079946.0   
+    2021-06           1.237163e+08                86020184.0   
+    2021-07           2.440552e+08                34210736.0   
+    2021-08           6.723441e+08               224714562.0   
+    2021-09           1.194545e+09                88079040.0   
+    2021-10           2.918398e+08                51150451.0   
+    2021-11           2.392134e+08                41357160.0   
+    2021-12           2.715716e+08                50002875.0   
+    2022-01           4.329208e+08               321263526.0   
+    2022-02           7.199038e+08                32780990.0   
+    2022-03           4.628563e+08                24587115.0   
+    2022-04           6.816730e+08                23079686.0   
+    2022-05           6.030724e+08                36069228.0   
+    
+    Stock    Suryodaya Small Finance Bank  Ujjivan Small Finance Bank  
+    Month                                                              
+    2021-01                           0.0                  18714680.0  
+    2021-02                           0.0                  51222058.8  
+    2021-03                           0.0                  32713532.8  
+    2021-04                    18529260.0                  37162325.2  
+    2021-05                    32791806.0                  18195425.6  
+    2021-06                    11281387.0                  22511160.0  
+    2021-07                     8854365.0                  21603797.6  
+    2021-08                     8810672.0                  60503628.0  
+    2021-09                     8756037.0                  33159416.4  
+    2021-10                     5346900.0                  32969434.4  
+    2021-11                     4182360.0                  49840807.5  
+    2021-12                     6427768.0                   8988872.5  
+    2022-01                     8414133.0                  20353961.4  
+    2022-02                     3749942.0                   9206173.0  
+    2022-03                     2799312.0                  11688122.4  
+    2022-04                    36078712.0                  28435550.8  
+    2022-05                    13988565.0                   6447402.5  
+    
+
+
+```python
+new.sort_values(list(new.columns),inplace=True)
+new = new.sort_index()
+```
+
+
+```python
+new.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Stock</th>
+      <th>AU Small Finance Bank</th>
+      <th>Equitas Holdings Limited</th>
+      <th>Suryodaya Small Finance Bank</th>
+      <th>Ujjivan Small Finance Bank</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-01</th>
+      <td>3.253061e+08</td>
+      <td>28799081.4</td>
+      <td>0.0</td>
+      <td>18714680.0</td>
+    </tr>
+    <tr>
+      <th>2021-02</th>
+      <td>1.284589e+09</td>
+      <td>51089266.9</td>
+      <td>0.0</td>
+      <td>51222058.8</td>
+    </tr>
+    <tr>
+      <th>2021-03</th>
+      <td>5.142770e+08</td>
+      <td>77610356.0</td>
+      <td>0.0</td>
+      <td>32713532.8</td>
+    </tr>
+    <tr>
+      <th>2021-04</th>
+      <td>2.804738e+08</td>
+      <td>41636163.6</td>
+      <td>18529260.0</td>
+      <td>37162325.2</td>
+    </tr>
+    <tr>
+      <th>2021-05</th>
+      <td>2.540412e+09</td>
+      <td>28079946.0</td>
+      <td>32791806.0</td>
+      <td>18195425.6</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+import bar_chart_race as bcr
+```
+
+
+```python
+
+
+bcr.bar_chart_race(df = new, 
+                   n_bars = 4, 
+                   sort='desc',
+                   dpi=300,
+                   title='Banking Stocks Market Cap',
+                   period_length=800,
+                   figsize = (2.5,2.5))
+
+
+```
+
+    C:\Users\imabh\anaconda3\lib\site-packages\bar_chart_race\_make_chart.py:286: UserWarning: FixedFormatter should only be used together with FixedLocator
+      ax.set_yticklabels(self.df_values.columns)
+    C:\Users\imabh\anaconda3\lib\site-packages\bar_chart_race\_make_chart.py:287: UserWarning: FixedFormatter should only be used together with FixedLocator
+      ax.set_xticklabels([max_val] * len(ax.get_xticks()))
+    
+
+
+
+
+
+```python
+plots = sns.barplot(x="Stock", y="Market Cap", data=df)
+```
+
+    
+
+![output_15_0](https://user-images.githubusercontent.com/86119205/178462224-61420d18-485e-47e3-92f3-82753e359eb6.png)
+
+
+```python
+
+```
+
