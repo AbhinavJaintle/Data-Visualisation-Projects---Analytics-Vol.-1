@@ -1,6 +1,6 @@
 # Data-Visualisation-Projects---Analytics-Vol.-1
 
-## 1. India State-Wise Alcohol Consumption Mapping:
+## 1. Top 5 Cryptocurrencies over the years visualization:
 
 ```python
 import pandas as pd
