@@ -790,3 +790,284 @@ ax = df.plot.hist(y="LNE_Density")
 ```python
 
 ```
+
+
+## 3. RoI on Various Investments over the years:
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.animation as animation
+from IPython import display
+```
+
+
+```python
+investment_table = pd.read_csv('D:\Documents\Investment_increase1.csv')
+```
+
+
+```python
+investment_table.head()
+```
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Investment</th>
+      <th>Increase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019</td>
+      <td>Nifty 50 Index</td>
+      <td>11.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020</td>
+      <td>Nifty 50 Index</td>
+      <td>-19.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2021</td>
+      <td>Nifty 50 Index</td>
+      <td>62.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022</td>
+      <td>Nifty 50 Index</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019</td>
+      <td>Gold</td>
+      <td>12.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df = investment_table
+```
+
+
+```python
+df = df.set_index('Year')
+```
+
+
+```python
+print(df)
+```
+
+              Investment  Increase
+    Year                          
+    2019  Nifty 50 Index      11.0
+    2020  Nifty 50 Index     -19.0
+    2021  Nifty 50 Index      62.0
+    2022  Nifty 50 Index       5.0
+    2019            Gold      12.0
+    2020            Gold      38.0
+    2021            Gold       0.1
+    2022            Gold       8.0
+    2019          Silver      -5.0
+    2020          Silver      23.0
+    2021          Silver      49.0
+    2022          Silver     -21.0
+    2019        Yes Bank     -53.0
+    2020        Yes Bank     -83.0
+    2021        Yes Bank     -53.0
+    2022        Yes Bank      10.0
+    
+
+
+```python
+new = df.reset_index().groupby(['Year', 'Investment'])['Increase'].aggregate('first').unstack()
+```
+
+
+```python
+new.head()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Investment</th>
+      <th>Gold</th>
+      <th>Nifty 50 Index</th>
+      <th>Silver</th>
+      <th>Yes Bank</th>
+    </tr>
+    <tr>
+      <th>Year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019</th>
+      <td>12.0</td>
+      <td>11.0</td>
+      <td>-5.0</td>
+      <td>-53.0</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>38.0</td>
+      <td>-19.0</td>
+      <td>23.0</td>
+      <td>-83.0</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>0.1</td>
+      <td>62.0</td>
+      <td>49.0</td>
+      <td>-53.0</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>-21.0</td>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+new.sort_values(list(new.columns),inplace=True)
+new = new.sort_index()
+```
+
+
+```python
+new.head()
+```
+
+
+
+
+<div>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Investment</th>
+      <th>Gold</th>
+      <th>Nifty 50 Index</th>
+      <th>Silver</th>
+      <th>Yes Bank</th>
+    </tr>
+    <tr>
+      <th>Year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019</th>
+      <td>12.0</td>
+      <td>11.0</td>
+      <td>-5.0</td>
+      <td>-53.0</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>38.0</td>
+      <td>-19.0</td>
+      <td>23.0</td>
+      <td>-83.0</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>0.1</td>
+      <td>62.0</td>
+      <td>49.0</td>
+      <td>-53.0</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>-21.0</td>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+import bar_chart_race as bcr
+```
+
+
+```python
+anim = bcr.bar_chart_race(df = new, 
+                   n_bars = 4, 
+                   sort='desc',
+                   dpi=300,
+                   title='Percentage Return',
+                   period_length=2500,
+                   figsize = (4,4))
+```
+
+    C:\Users\imabh\anaconda3\lib\site-packages\bar_chart_race\_make_chart.py:286: UserWarning: FixedFormatter should only be used together with FixedLocator
+      ax.set_yticklabels(self.df_values.columns)
+    C:\Users\imabh\anaconda3\lib\site-packages\bar_chart_race\_make_chart.py:287: UserWarning: FixedFormatter should only be used together with FixedLocator
+      ax.set_xticklabels([max_val] * len(ax.get_xticks()))
+    
+
+
+```python
+# writervideo = animation.FFMpegWriter(fps=60)
+# anim.save('increasingStraightLine.mp4', writer=writervideo)
+
+# html = display.HTML(anim)
+  
+# draw the animation
+display.display(anim)
+```
+
+
+
+
+
+```python
+
+```
